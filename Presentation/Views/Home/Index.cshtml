@@ -1,0 +1,65 @@
+﻿@using Application.Commands;
+@using Application.Responses;
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model dynamic;
+
+<div class="container">
+    <form class="myForm" enctype="multipart/form-data" method="post" asp-controller="Home" asp-action="UploadFile">
+        <dl>
+            <dt class="d-flex justify-content-end">    
+                <label for="FileUpload" class="btn btn-outline-primary">Upload File</label>
+            </dt>
+                <dd>
+                <input name="File" id="FileUpload" type="file" accept=".txt" hidden>
+            </dd>
+        </dl>
+    </form>
+    @if (Model.Books.Count > 0)
+    {
+        <button type="submit" class="btn btn-outline-success mb-1" onclick="location.href='@Url.Action("DownloadFile", "Home")'">
+            Download CSV File
+        </button>
+    }
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Row Number</th>
+                <th scope="col">Data Retrieval Type</th>
+                <th scope="col">ISBN</th>
+                <th scope="col">Title</th>
+                <th scope="col">Subtitle</th>
+                <th scope="col">Author Name(s)</th>
+                <th scope="col">Number of Pages</th>
+                <th scope="col">Publish Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <th scope="row">@book.RowNumber</th>
+                    <td>@book.Type</td>
+                    <td>@book.ISBN</td>
+                    <td>@book.Title</td>
+                    <td>@book.SubTitle</td>
+                    <td>@book.Authors</td>
+                    <td>@book.NumberPages</td>
+                    <td>@book.PublishDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $('#FileUpload').on('change', function () {
+            $('.myForm').trigger('submit');;
+        });
+    });
+
+</script>
